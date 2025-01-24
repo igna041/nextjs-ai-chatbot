@@ -1,8 +1,11 @@
 import { openai } from '@ai-sdk/openai';
-import { models } from '@/ai/models';
+import { experimental_wrapLanguageModel as wrapLanguageModel } from 'ai';
+
+import { customMiddleware } from './custom-middleware';
 
 export const customModel = (apiIdentifier: string) => {
-  return {
-    model: openai(apiIdentifier), // Corrected line
-  };
+  return wrapLanguageModel({
+    model: openai(apiIdentifier),
+    middleware: customMiddleware,
+  });
 };
